@@ -3,7 +3,6 @@ var express = require('express'),
         pdf = require('express-pdf');
         path = require('path');
  
-//previously app.use(pdf())
 app.use(pdf); // or you can app.use(require('express-pdf'));
 
 app.get('/invoice/:firstname/:lastname', (req, res) => {

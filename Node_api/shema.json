@@ -1,0 +1,111 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/product.schema.json",
+    "title": "Product",
+    "description": "A product from Acme's catalog",
+    "type": "object",
+    "properties": {
+
+      "companyInformations": {
+        "companyName": {
+            "description": "Company's name",
+            "type": "string"
+        },
+        "lastName": {
+            "description": "Entrpreneur's first name",
+            "type": "string"
+        },
+        "firstName": {
+            "description": "Entrpreneur's last name",
+            "type": "string"
+        },
+        "email": {
+            "description": "Entrpreneur's email",
+            "type": "string"
+        },
+        "phoneNumber": {
+            "description": "Entrpreneur's phone number",
+            "type": "integer"
+        },
+        "postalAddress": {
+            "description": "Entrpreneur's or company's postal address",
+            "type": "string"
+        },
+        "siretNumber": {
+            "description": "Company's Siret number",
+            "type": "string"
+        },
+        "required": [ "lastName", "firstName", "email" , "phoneNumber" , "postalAdress" , "siretNumber" ]
+      },
+
+
+      "billNumber": {
+        "description": "Number of the bill"
+      },
+
+      "billDate": {
+        "description": "Date of the bill"
+      },
+
+
+      "clientInformations": {
+        "clientCompanyName": {
+            "description": "Name of the client company",
+            "type": "string"
+        },
+        "clientCompanyAddress": {
+            "description": "Address of the client company",
+            "type": "string"
+        },
+        "required": [ "clientCompanyName", "clientCompanyAddress" ]
+      },
+
+
+      "prestationsList": {
+        "description": {
+            "description": "description of prestations",
+            "type": "string"
+        },
+        "quantity": {
+            "description": "Quantity of prestations",
+            "type": "integer"
+        },
+        "unitaryPriceWhithoutTaxes": {
+            "description": "Unitary price whithout taxes",
+            "type": "float"
+        },
+        "totalPriceWithoutTaxes": {
+            "description": "Without taxes total price",
+            "type": "float"
+        },
+        "required": [ "description", "quantity" , "unitaryPriceWhithoutTaxes" , "totalPriceWithoutTaxes"]
+      },
+
+      "totalBill": {
+        "totalPriceWithoutTaxes": {
+            "description": "Total price without taxes",
+            "type": "integer"
+        },
+        "TVArate": {
+            "description": "TVA rate",
+            "type": "float"
+        },
+        "totalPriceTaxIncl": {
+            "description": "Total price whith all taxes",
+            "type": "float"
+        },
+        "required": [ "totalPriceWithoutTaxes", "TVArate" , "totalPriceTaxIncl"]
+      },
+
+
+      "prestationDate": {
+        "description": "Number of the bill",
+        "type": "date"
+      },
+      "timeLapsePaiment": {
+        "description": "Date of the bill",
+        "type": "date"
+      }
+    },
+    "required": [ "companyInformations", "billNumber" , "billDate", "clientInformations", "prestationsList" , "totalBill" , "prestationDate" , "timeLapsePaiment" ]
+  }
