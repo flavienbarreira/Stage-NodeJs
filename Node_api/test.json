@@ -1,0 +1,44 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/product.schema.json",
+    "title": "Bill",
+    "description": "A bill for an entrepreneur",
+    "type": "object",
+    "properties": {
+
+      "entrepreneurInformations": {
+        "companyName": "ALEXANDRE BARREIRA",
+        "lastName": "Barreira",
+        "firstName": "Alexandre",
+        "email": "abarreir@gmail.com",
+        "phoneNumber": "0600000000",
+        "postalAddress": "12 rue jesaisplus",
+        "siretNumber": "054654846545646746"
+      },
+
+      "billNumber": "021315452315456415",
+
+      "billDate": "05/05/21",
+
+      "clientInformations": {
+        "clientCompanyName": "FLAVIEN BARREIRA",
+        "clientCompanyAddress": "159 rue JPT"
+      },
+
+      "prestationsList": {
+        "description": "site generer factures",
+        "quantity": "1",
+        "unitaryPriceWhithoutTaxes": "5",
+        "totalPriceWithoutTaxes": "5"
+      },
+
+      "totalBill": {
+        "totalPriceWithoutTaxes": "0",
+        "TVArate": "20",
+        "totalPriceTaxIncl": "4.6"
+      },
+
+      "prestationDate": "10/05/21",
+      "timeLapsePaiment": "6"
+    }
+  }

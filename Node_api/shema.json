@@ -1,34 +1,31 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://example.com/product.schema.json",
-    "title": "Product",
-    "description": "A product from Acme's catalog",
-    "type": "object",
+    "title": "Bill",
+    "description": "A bill for an entrepreneur",
     "properties": {
 
-      "companyInformations": {
+      "entrepreneurInformations": {
         "companyName": {
             "description": "Company's name",
             "type": "string"
         },
         "lastName": {
-            "description": "Entrpreneur's first name",
+            "description": "Entrepreneur's first name",
             "type": "string"
         },
         "firstName": {
-            "description": "Entrpreneur's last name",
+            "description": "Entrepreneur's last name",
             "type": "string"
         },
         "email": {
-            "description": "Entrpreneur's email",
+            "description": "Entrepreneur's email",
             "type": "string"
         },
         "phoneNumber": {
-            "description": "Entrpreneur's phone number",
+            "description": "Entrepreneur's phone number",
             "type": "integer"
         },
         "postalAddress": {
-            "description": "Entrpreneur's or company's postal address",
+            "description": "Entrepreneur's or company's postal address",
             "type": "string"
         },
         "siretNumber": {
