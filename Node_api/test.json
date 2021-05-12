@@ -11,8 +11,9 @@
         "lastName": "Barreira",
         "firstName": "Alexandre",
         "email": "abarreir@gmail.com",
-        "phoneNumber": "0600000000",
+        "phoneNumber": "06 00 00 00 00",
         "postalAddress": "12 rue jesaisplus",
+        "department":"75010 Paris",
         "siretNumber": "054654846545646746"
       },
 
@@ -22,11 +23,12 @@
 
       "clientInformations": {
         "clientCompanyName": "FLAVIEN BARREIRA",
-        "clientCompanyAddress": "159 rue JPT"
+        "clientCompanyAddress": "159 rue JPT",
+        "department" : "75116 Paris"
       },
 
       "prestationsList": {
-        "description": "site generer factures",
+        "description": "Audit technique et produit",
         "quantity": "1",
         "unitaryPriceWhithoutTaxes": "5",
         "totalPriceWithoutTaxes": "5"
@@ -39,6 +41,6 @@
       },
 
       "prestationDate": "10/05/21",
-      "timeLapsePaiment": "6"
+      "paimentDate": "15/06/21"
     }
   }

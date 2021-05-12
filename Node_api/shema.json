@@ -28,11 +28,15 @@
             "description": "Entrepreneur's or company's postal address",
             "type": "string"
         },
+        "department": {
+          "description": "Entrepreneur's or company's department and city",
+          "type": "string"
+        },
         "siretNumber": {
             "description": "Company's Siret number",
             "type": "string"
         },
-        "required": [ "lastName", "firstName", "email" , "phoneNumber" , "postalAdress" , "siretNumber" ]
+        "required": [ "lastName", "firstName", "email" , "phoneNumber" , "postalAdress" ,"department", "siretNumber" ]
       },
 
 
@@ -54,6 +58,10 @@
             "description": "Address of the client company",
             "type": "string"
         },
+        "clientDepartment": {
+          "description": "Address of the client company",
+          "type": "string"
+      },
         "required": [ "clientCompanyName", "clientCompanyAddress" ]
       },
 
@@ -96,13 +104,13 @@
 
 
       "prestationDate": {
-        "description": "Number of the bill",
+        "description": "Date of the prestation",
         "type": "date"
       },
-      "timeLapsePaiment": {
-        "description": "Date of the bill",
+      "paimentDate": {
+        "description": "Date of the paiment",
         "type": "date"
       }
     },
-    "required": [ "companyInformations", "billNumber" , "billDate", "clientInformations", "prestationsList" , "totalBill" , "prestationDate" , "timeLapsePaiment" ]
+    "required": [ "companyInformations", "billNumber" , "billDate", "clientInformations", "prestationsList" , "totalBill" , "prestationDate" , "paimentDate" ]
   }
