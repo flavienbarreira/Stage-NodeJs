@@ -1,0 +1,105 @@
+{
+  "title": "Bill",
+  "description": "A bill for an entrepreneur",
+  "properties": {
+    "entrepreneurInformation": {
+      "type": "object",
+      "required": [ "entrepreneurInformation", "billNumber" , "billDate", "clientInformation", "prestationsList" , "TVArate" , "prestationDate" , "paimentDelay" ],
+      "properties": {
+        "companyName": {
+          "description": "Company's name",
+          "type": "string",
+          "required": [ "lastName", "firstName", "email" , "phoneNumber" , "postalAdress" ,"department", "siretNumber" ]
+        },
+        "lastName": {
+            "description": "Entrepreneur's first name",
+            "type": "string"
+        },
+        "firstName": {
+            "description": "Entrepreneur's last name",
+            "type": "string"
+        },
+        "email": {
+            "description": "Entrepreneur's email",
+            "type": "string"
+        },
+        "phoneNumber": {
+            "description": "Entrepreneur's phone number",
+            "type": "integer"
+        },
+        "postalAddress": {
+            "description": "Entrepreneur's or company's postal address",
+            "type": "string"
+        },
+        "department": {
+          "description": "Entrepreneur's or company's department and city",
+          "type": "string"
+        },
+        "siretNumber": {
+            "description": "Company's Siret number",
+            "type": "string"
+        }
+      }
+    },
+    "billNumber": {
+      "description": "Number of the bill",
+      "type" : "string"
+    },
+    "billDate": {
+      "description": "Date of the bill",
+      "type" : "string"
+    },
+    "clientInformation": {
+      "type": "object",
+      "required": [ "companyName", "companyAddress" , "department"],
+      "companyName": {
+          "description": "Name of the client company",
+          "type": "string"
+      },
+      "companyAddress": {
+          "description": "Address of the client company",
+          "type": "string"
+      },
+      "department": {
+        "description": "Address of the client company",
+        "type": "string"
+      }
+    },
+    "prestationsList": {
+      "type" : "array",
+      "items" : { "$ref" : "#/$defs/prestation"}
+    },
+    "TVArate": {
+      "description": "TVA rate",
+      "type": "number"
+    },
+    "prestationDate": {
+      "description": "Date of the prestation",
+      "type": "string"
+    },
+    "paimentDelay": {
+      "description": "Date of the paiment",
+      "type": "string"
+    }
+  },
+  "$defs" : {
+    "prestation" : {
+      "type" : "object",
+      "require" : ["description", "quantity", "unitaryPriceWhithoutTaxes"],
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "blabla"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "description" : "blabla"
+        },
+        "unitaryPriceWhithoutTaxes" : {
+          "type" : "number",
+          "description" : "blabla"
+        }
+      }
+    }
+  }
+}

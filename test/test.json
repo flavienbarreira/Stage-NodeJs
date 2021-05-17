@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/product.schema.json",
+  "title": "Bill",
+  "description": "A bill for an entrepreneur",
+  "type": "object",
+  "properties": {
+    "entrepreneurInformation": {
+      "companyName": "ALEXANDRE BARREIRA",
+      "lastName": "Barreira",
+      "firstName": "Alexandre",
+      "email": "abarreir@gmail.com",
+      "phoneNumber": "06 00 00 00 00",
+      "postalAddress": "12 rue jesaisplus",
+      "department":"75010 Paris",
+      "siretNumber": "054654846545646746"
+    },
+    "billNumber": "021315452315456415",
+    "billDate": "05/05/21",
+    "clientInformation": {
+      "clientCompanyName": "FLAVIEN BARREIRA",
+      "clientCompanyAddress": "159 rue JPT",
+      "department" : "75116 Paris"
+    },
+    "prestationsList": {
+      "items" : ["Audit technique et produit", 1 , 5]
+    },
+    "TVArate": "20",
+    "prestationDate": "10/05/21",
+    "paimentDelay": "15/06/21"
+  }
+}

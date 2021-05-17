@@ -1,0 +1,25 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "stage_dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flavienbarreira/Stage-NodeJs.git"
+  },
+  "author": "flavien barreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flavienbarreira/Stage-NodeJs/issues"
+  },
+  "homepage": "https://github.com/flavienbarreira/Stage-NodeJs#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-json-validator-middleware": "^2.1.1",
+    "express-jsonschema": "^1.1.6",
+    "pdfmake": "^0.1.71"
+  }
+}
