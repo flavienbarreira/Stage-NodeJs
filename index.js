@@ -5,6 +5,7 @@ const path = require('path');
 const json = require('./schema.json'); //with path
 const generatePDF = require('./generate.js');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
   
 // Prise en charge du JSON.  
@@ -42,9 +43,10 @@ app.use((error, request, response, next) => {
   
 });
 
-app.post('/invoice', (req, res) => {
-  generatePDF(req.body);
-  res.pdf(path.resolve(__dirname, './pdf/document.pdf')); //PDF display  
+app.post('/invoice', async (req, res) => {
+  const pdfFilename = await generatePDF(req.body);
+  res.download(pdfFilename);
 });
+  //res.pdf(path.resolve(__dirname, './pdf/document.pdf')); //PDF display
 
 app.listen(3000);
