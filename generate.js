@@ -1,7 +1,9 @@
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
 
-function buildPrestationsTable(items) {
+function buildPrestationsTable(items , TVArate) {
+  let total=0;
+  let total2;
   const tab = [{
       columns: [
         { text: "Description" , fontSize: 10,  bold: 'Courier-Bold',},
@@ -21,12 +23,20 @@ function buildPrestationsTable(items) {
         {text: "€"+(items[i].quantity*items[i].unitaryPriceWhithoutTaxes) , fontSize: 10, alignment: 'right',}
       ],
     });
+    total += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
     tab.push({image: 'design/trait.jpg',margin: [ 0, 2, 0, 2 ]});
   }
+  total2 = total + total*(TVArate/100);
+  tab.push({
+    columns : [
+      {text: "Total" ,  fontSize: 10, color : "purple"},
+      {text: total, fontSize: 10, alignment: 'right', color : "purple"}
+    ],
+  });
   return tab;
 }
 
-function buildHeader(entrepreneurInformation){
+function buildHeader(entrepreneurInformation) {
   const tab = [{
       columns: [
         { text: entrepreneurInformation.companyName , fontSize: 15, color : "purple"},
@@ -41,10 +51,12 @@ function buildHeader(entrepreneurInformation){
       ],
     }
   );
+  tab.push({ text: entrepreneurInformation.phoneNumber , fontSize: 10, color : "purple" },)
+  tab.push(  { text: "SIRET : " + entrepreneurInformation.siretNumber , fontSize: 12, color : "purple" , alignment: 'right'},)
   return tab;
 }
 
-function buildInfos(properties){
+function buildInfos(properties) {
   const tab = [{
       columns: [
         { text: "Numero de Facture" , fontSize: 10, color : "purple" ,margin: [ 0, 0, 0, 8 ]},
@@ -68,26 +80,41 @@ function buildInfos(properties){
   return tab;
 }
 
-function generatePDF(json){
-  const prestationsTable = buildPrestationsTable(json.properties.prestationsList.items);
+function calculateTotal(items, TVArate , hasTVA) {
+  tab=[];
+  let total = 0;
+  let tot =0;
+  for (let i = 0; i<items.length; i++) {
+    tot += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
+  }
+  total = tot + tot*(TVArate/100);
+  console.log(total);
+  if(hasTVA==true){
+    tab.push({text: "Total TTC en Euros" , fontSize: 10, alignment: 'right'});
+    tab.push({ text:  total, fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 0 ]});
+  } else {
+    tab.push({ text: "Total HT en Euros" , fontSize: 10, alignment: 'right'});
+    tab.push({ text:  total, fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 10 ]});
+    tab.push({text: "TVA non applicable, art. 293 B du CGI" , fontSize: 10, alignment: 'right', italics: 'Courier-Oblique'});
+  }
+  return tab;
+}
+
+function builsDates(prestationDate, paimentDelay) {
+  const tab=[{ text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]}];
+  tab.push({ text:  prestationDate, fontSize: 10});
+  tab.push( { text: "Date de paiment :" , fontSize: 10, color : "purple", margin: [ 0, 10, 0, 4 ]});
+  tab.push({ text:  paimentDelay, fontSize: 10});
+  tab.push({ text: "En cas de retard de paiment, indémnité forfaitaire légale pour frais de recouvrement : 40,00€" , fontSize: 10, italics: 'Courier-Oblique',  margin: [ 0, 30, 0, 0 ]});
+  return tab;
+}
+
+function generatePDF(json) {
+  const prestationsTable = buildPrestationsTable(json.properties.prestationsList.items , json.properties.TVArate);
   const header = buildHeader(json.properties.entrepreneurInformation);
   const infos = buildInfos(json.properties);
-  const tva = [];
-  const tva2 = [];
-  let total=0;
-  if(json.properties.hasTVA==true){
-    total += total*(json.properties.TVArate/100);
-    tva.push(
-      {text: "Total TTC en Euros" , fontSize: 10, alignment: 'right'},
-    );
-  } else {
-    tva.push(
-      {text: "Total HT en Euros" , fontSize: 10, alignment: 'right'},
-    );
-    tva2.push(
-      {text: "TVA non applicable, art. 293 B du CGI" , fontSize: 10, alignment: 'right', italics: 'Courier-Oblique'},
-    );
-  }
+  const total = calculateTotal(json.properties.prestationsList.items, json.properties.TVArate, json.properties.hasTVA);
+  const date = builsDates(json.properties.prestationDate, json.properties.paimentDelay);
 
   fonts = {
     Helvetica: {
@@ -106,28 +133,16 @@ function generatePDF(json){
 
   var printer = new PdfPrinter(fonts);
   var docDefinition = {
-    content:[
+    content: [
       header,
-      { text: json.properties.entrepreneurInformation.phoneNumber , fontSize: 10, color : "purple" },
-      { text: "SIRET : " + json.properties.entrepreneurInformation.siretNumber , fontSize: 12, color : "purple" , alignment: 'right'},
       "\n\n\n\n\n\n",
       infos,
       "\n\n\n\n\n\n\n\n\n\n",
       prestationsTable,
       "\n\n\n\n\n\n\n\n\n\n\n",
-      tva,
-      "\n",
-      { text:  "€"+total, fontSize: 15, alignment: 'right', color : "purple"},
-      "\n",
-      tva2,
+      total,
       "\n\n",
-      { text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]},
-      { text:  json.properties.prestationDate, fontSize: 10},
-      "\n",
-      { text: "Date de paiment :" , fontSize: 10, color : "purple", margin: [ 0, 0, 0, 4 ]},
-      { text:  json.properties.paimentDelay, fontSize: 10},
-      "\n\n\n",
-      { text: "En cas de retard de paiment, indémnité forfaitaire légale pour frais de recouvrement : 40,00€" , fontSize: 10, italics: 'Courier-Oblique'},
+      date,
     ],
     defaultStyle: {
       font: 'Helvetica'
