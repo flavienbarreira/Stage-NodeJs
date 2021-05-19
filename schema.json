@@ -27,13 +27,27 @@
             "description": "Entrepreneur's phone number",
             "type": "integer"
         },
-        "postalAddress": {
-            "description": "Entrepreneur's or company's postal address",
-            "type": "string"
-        },
-        "department": {
-          "description": "Entrepreneur's or company's department and city",
-          "type": "string"
+        "address": {
+          "type": "object",
+          "required": ["streetAndNumber", "postaCodeAndCity",  "country"],
+          "properties": {
+            "streetAndNumber": {
+              "description": "Entrepreneur's or company's street",
+              "type": "string"
+            },
+            "postalCode": {
+              "description": "Entrepreneur's or company's department",
+              "type": "string"
+            },
+            "city": {
+              "description": "Entrepreneur's or company's city",
+              "type": "string"
+            },
+            "country": {
+              "description": "Entrepreneur's or company's country",
+              "type": "string"
+            }
+          }
         },
         "siretNumber": {
             "description": "Company's Siret number",
@@ -56,13 +70,27 @@
           "description": "Name of the client company",
           "type": "string"
       },
-      "companyAddress": {
-          "description": "Address of the client company",
-          "type": "string"
-      },
-      "department": {
-        "description": "Address of the client company",
-        "type": "string"
+      "address": {
+        "type": "object",
+        "required": ["streetAndNumber", "postaCodeAndCity",  "country"],
+        "properties": {
+          "streetAndNumber": {
+            "description": "Client's or company's street",
+            "type": "string"
+          },
+          "postalCode": {
+            "description": "Entrepreneur's or company's department",
+            "type": "string"
+          },
+          "city": {
+            "description": "Entrepreneur's or company's city",
+            "type": "string"
+          },
+          "country": {
+            "description": "Client's or company's country",
+            "type": "string"
+          }
+        }
       }
     },
     "prestationsList": {
@@ -79,7 +107,7 @@
     },
     "paimentDelay": {
       "description": "Date of the paiment",
-      "type": "string"
+      "type": "integer"
     }
   },
   "$defs" : {

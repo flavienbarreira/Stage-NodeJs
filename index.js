@@ -1,6 +1,5 @@
 const { Validator, ValidationError } = require('express-json-validator-middleware');
 const express = require('express');
-const pdf = require('express-pdf');
 const path = require('path');
 const json = require('./schema.json'); //with path
 const generatePDF = require('./generate.js');
@@ -11,9 +10,6 @@ const fs = require('fs');
 // Prise en charge du JSON.  
 const app = express();
 app.use(bodyParser.json());
-
-
-app.use(pdf); // or you can app.use(require('express-pdf'));
 
 var validator = new Validator();
 var validate = validator.validate;
@@ -47,6 +43,5 @@ app.post('/invoice', async (req, res) => {
   const pdfFilename = await generatePDF(req.body);
   res.download(pdfFilename);
 });
-  //res.pdf(path.resolve(__dirname, './pdf/document.pdf')); //PDF display
 
 app.listen(3000);

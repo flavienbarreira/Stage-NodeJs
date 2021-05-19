@@ -19,8 +19,8 @@ function buildPrestationsTable(items , TVArate) {
       columns : [
         {text: items[i].description ,  fontSize: 10,},
         {text: items[i].quantity,  fontSize: 10,},
-        {text: "€"+items[i].unitaryPriceWhithoutTaxes,  fontSize: 10,},
-        {text: "€"+(items[i].quantity*items[i].unitaryPriceWhithoutTaxes) , fontSize: 10, alignment: 'right',}
+        {text: items[i].unitaryPriceWhithoutTaxes + " €",  fontSize: 10,},
+        {text: (items[i].quantity*items[i].unitaryPriceWhithoutTaxes) + " €" , fontSize: 10, alignment: 'right',}
       ],
     });
     total += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
@@ -30,7 +30,7 @@ function buildPrestationsTable(items , TVArate) {
   tab.push({
     columns : [
       {text: "Total" ,  fontSize: 10, color : "purple"},
-      {text: total, fontSize: 10, alignment: 'right', color : "purple"}
+      {text: total + " €", fontSize: 10, alignment: 'right', color : "purple"}
     ],
   });
   return tab;
@@ -40,19 +40,25 @@ function buildHeader(entrepreneurInformation) {
   const tab = [{
       columns: [
         { text: entrepreneurInformation.companyName , fontSize: 15, color : "purple"},
-        { text: entrepreneurInformation.postalAddress , fontSize: 13, color : "purple" , alignment: 'right', margin: [ 0, 0, 0, 4 ]},
+        { text: entrepreneurInformation.address.streetAndNumber , fontSize: 13, color : "purple" , alignment: 'right' , margin: [ 0, 0, 0, 4 ]}
       ],
     },
   ];
   tab.push({
       columns: [
         { text: entrepreneurInformation.email , fontSize: 10, color : "purple" , margin: [ 0, 1, 0, 4 ] },
-        { text: entrepreneurInformation.department, fontSize: 13, color : "purple" , alignment: 'right'},
+        { text: entrepreneurInformation.address.postalCode + " " + entrepreneurInformation.address.city, fontSize: 13, color : "purple" , alignment: 'right' , margin: [ 0, 1, 0, 4 ]}
       ],
     }
   );
-  tab.push({ text: entrepreneurInformation.phoneNumber , fontSize: 10, color : "purple" },)
-  tab.push(  { text: "SIRET : " + entrepreneurInformation.siretNumber , fontSize: 12, color : "purple" , alignment: 'right'},)
+  tab.push({
+    columns: [
+      { text: entrepreneurInformation.phoneNumber , fontSize: 10, color : "purple" },
+      { text: entrepreneurInformation.address.country, fontSize: 13, color : "purple" , alignment: 'right' , margin: [ 0, 1, 0, 4 ]}
+    ],
+  }
+);
+  tab.push({ text: "SIRET : " + entrepreneurInformation.siretNumber , fontSize: 12, color : "purple" , alignment: 'right', margin: [ 0, 10, 0, 0 ]})
   return tab;
 }
 
@@ -74,8 +80,9 @@ function buildInfos(properties) {
     },
   );
   tab.push(
-    { text: properties.clientInformation.companyAddress , fontSize: 10.5 , alignment: 'right', margin: [ 0, 0, 0, 4 ]},
-    { text: properties.clientInformation.department , fontSize: 10.5 , alignment: 'right'},
+    { text: properties.clientInformation.address.streetAndNumber , fontSize: 10.5 , alignment: 'right', margin: [ 0, 0, 0, 4 ]},
+    { text: properties.clientInformation.address.postalCode + " " + properties.clientInformation.address.city , fontSize: 10.5 , alignment: 'right' , margin: [ 0, 1, 0, 4 ]},
+    { text: properties.clientInformation.address.country , fontSize: 10.5 , alignment: 'right'}
   );
   return tab;
 }
@@ -88,23 +95,64 @@ function calculateTotal(items, TVArate , hasTVA) {
     tot += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
   }
   total = tot + tot*(TVArate/100);
-  console.log(total);
   if(hasTVA==true){
     tab.push({text: "Total TTC en Euros" , fontSize: 10, alignment: 'right'});
-    tab.push({ text:  total, fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 0 ]});
+    tab.push({ text:  total+ " €", fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 0 ]});
   } else {
     tab.push({ text: "Total HT en Euros" , fontSize: 10, alignment: 'right'});
-    tab.push({ text:  total, fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 10 ]});
+    tab.push({ text:  tot+ " €", fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 10 ]});
     tab.push({text: "TVA non applicable, art. 293 B du CGI" , fontSize: 10, alignment: 'right', italics: 'Courier-Oblique'});
   }
   return tab;
 }
 
-function builsDates(prestationDate, paimentDelay) {
+function buildDates(prestationDate, paimentDelay) {
+  let paimentDate = prestationDate;
+  let day = prestationDate[0] +  prestationDate[1];
+  let month = prestationDate[3] +  prestationDate[4];
+  let year = prestationDate[6] +  prestationDate[7];
+  let finalDate="";
+  day = parseInt(day);
+  month = parseInt(month);
+  year = parseInt(year);
+
+  //check if need to increment the month or year
+ 
+  if(month==2 && (day+paimentDelay)>28){
+    month++;
+    day = (day+paimentDelay)-28;
+    } else if((day+paimentDelay)>31){
+      if((month+1)>12){
+        year++;
+        month = 1;
+      } else {
+        month++;
+      }
+      day = (day+paimentDelay)-31;
+    } else {
+      day += paimentDelay;
+    }
+
+  //recreate the string
+  if(day<10){
+    day = "0"+day.toString();
+  } else {
+    day = day.toString();
+  }
+  if(month<10){
+    month = "0"+month.toString();
+  } else {
+    month = month.toString();
+  }
+  year = year.toString();
+
+  //final string
+  finalDate = day + "/" + month + "/" + year;
+
   const tab=[{ text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]}];
   tab.push({ text:  prestationDate, fontSize: 10});
   tab.push( { text: "Date de paiment :" , fontSize: 10, color : "purple", margin: [ 0, 10, 0, 4 ]});
-  tab.push({ text:  paimentDelay, fontSize: 10});
+  tab.push({ text:  finalDate, fontSize: 10});
   tab.push({ text: "En cas de retard de paiment, indémnité forfaitaire légale pour frais de recouvrement : 40,00€" , fontSize: 10, italics: 'Courier-Oblique',  margin: [ 0, 30, 0, 0 ]});
   return tab;
 }
@@ -114,7 +162,7 @@ function generatePDF(json) {
   const header = buildHeader(json.properties.entrepreneurInformation);
   const infos = buildInfos(json.properties);
   const total = calculateTotal(json.properties.prestationsList.items, json.properties.TVArate, json.properties.hasTVA);
-  const date = builsDates(json.properties.prestationDate, json.properties.paimentDelay);
+  const date = buildDates(json.properties.prestationDate, json.properties.paimentDelay);
 
   fonts = {
     Helvetica: {
