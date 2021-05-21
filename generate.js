@@ -1,7 +1,9 @@
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
+const addDays = require('date-fns/addDays');
+const format = require('date-fns/format');
 
-function buildPrestationsTable(items , TVArate) {
+function buildPrestationsTable(items , rate) {
   let total=0;
   let total2;
   const tab = [{
@@ -26,7 +28,7 @@ function buildPrestationsTable(items , TVArate) {
     total += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
     tab.push({image: 'design/trait.jpg',margin: [ 0, 2, 0, 2 ]});
   }
-  total2 = total + total*(TVArate/100);
+  total2 = total + total*(rate/100);
   tab.push({
     columns : [
       {text: "Total" ,  fontSize: 10, color : "purple"},
@@ -73,8 +75,8 @@ function buildInfos(properties) {
   ];
   tab.push({
       columns: [
-        { text: properties.billNumber , fontSize: 10.5 },
-        { text: properties.billDate , fontSize: 10.5 },
+        { text: properties.bill.number , fontSize: 10.5 },
+        { text: properties.bill.date , fontSize: 10.5 },
         { text: properties.clientInformation.companyName , fontSize: 10.5 , alignment: 'right' , bold: 'Courier-Bold', margin: [ 0, 0, 0, 8 ]},
       ],
     },
@@ -87,14 +89,14 @@ function buildInfos(properties) {
   return tab;
 }
 
-function calculateTotal(items, TVArate , hasTVA) {
+function calculateTotal(items, rate , hasTVA) {
   tab=[];
   let total = 0;
   let tot =0;
   for (let i = 0; i<items.length; i++) {
     tot += items[i].quantity*items[i].unitaryPriceWhithoutTaxes;
   }
-  total = tot + tot*(TVArate/100);
+  total = tot + tot*(rate/100);
   if(hasTVA==true){
     tab.push({text: "Total TTC en Euros" , fontSize: 10, alignment: 'right'});
     tab.push({ text:  total+ " €", fontSize: 15, alignment: 'right', color : "purple" , margin: [ 0, 10, 0, 0 ]});
@@ -107,62 +109,27 @@ function calculateTotal(items, TVArate , hasTVA) {
 }
 
 function buildDates(prestationDate, paimentDelay) {
-  let paimentDate = prestationDate;
-  let day = prestationDate[0] +  prestationDate[1];
-  let month = prestationDate[3] +  prestationDate[4];
-  let year = prestationDate[6] +  prestationDate[7];
-  let finalDate="";
-  day = parseInt(day);
-  month = parseInt(month);
-  year = parseInt(year);
+  console.log(prestationDate.year);
+  console.log(prestationDate.month);
+  console.log(prestationDate.day);
+  const paimentDate = new Date(prestationDate.year, prestationDate.month, prestationDate.day);
+  const demain = addDays(paimentDate,1);
+  console.log(paimentDate);
 
-  //check if need to increment the month or year
- 
-  if(month==2 && (day+paimentDelay)>28){
-    month++;
-    day = (day+paimentDelay)-28;
-    } else if((day+paimentDelay)>31){
-      if((month+1)>12){
-        year++;
-        month = 1;
-      } else {
-        month++;
-      }
-      day = (day+paimentDelay)-31;
-    } else {
-      day += paimentDelay;
-    }
-
-  //recreate the string
-  if(day<10){
-    day = "0"+day.toString();
-  } else {
-    day = day.toString();
-  }
-  if(month<10){
-    month = "0"+month.toString();
-  } else {
-    month = month.toString();
-  }
-  year = year.toString();
-
-  //final string
-  finalDate = day + "/" + month + "/" + year;
-
-  const tab=[{ text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]}];
-  tab.push({ text:  prestationDate, fontSize: 10});
-  tab.push( { text: "Date de paiment :" , fontSize: 10, color : "purple", margin: [ 0, 10, 0, 4 ]});
-  tab.push({ text:  finalDate, fontSize: 10});
-  tab.push({ text: "En cas de retard de paiment, indémnité forfaitaire légale pour frais de recouvrement : 40,00€" , fontSize: 10, italics: 'Courier-Oblique',  margin: [ 0, 30, 0, 0 ]});
+  const tab=[ {text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]}];
+  tab.push( {text:  prestationDate, fontSize: 10});
+  tab.push( {text: "Date de paiment :" , fontSize: 10, color : "purple", margin: [ 0, 10, 0, 4 ]});
+  tab.push( {text:  "finalDate", fontSize: 10});
+  tab.push( {text: "En cas de retard de paiment, indémnité forfaitaire légale pour frais de recouvrement : 40,00€" , fontSize: 10, italics: 'Courier-Oblique',  margin: [ 0, 30, 0, 0 ]});
   return tab;
 }
 
 function generatePDF(json) {
-  const prestationsTable = buildPrestationsTable(json.properties.prestationsList.items , json.properties.TVArate);
+  const prestationsTable = buildPrestationsTable(json.properties.prestationsList.items , json.properties.TVA.rate);
   const header = buildHeader(json.properties.entrepreneurInformation);
   const infos = buildInfos(json.properties);
-  const total = calculateTotal(json.properties.prestationsList.items, json.properties.TVArate, json.properties.hasTVA);
-  const date = buildDates(json.properties.prestationDate, json.properties.paimentDelay);
+  const total = calculateTotal(json.properties.prestationsList.items, json.properties.TVA.rate, json.properties.TVA.hasTVA);
+  const date = buildDates(json.properties.prestationDateAndDelay.prestationDate, json.properties.prestationDateAndDelay.paimentDelay);
 
   fonts = {
     Helvetica: {

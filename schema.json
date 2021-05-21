@@ -55,13 +55,30 @@
         }
       }
     },
-    "billNumber": {
-      "description": "Number of the bill",
-      "type" : "string"
-    },
-    "billDate": {
-      "description": "Date of the bill",
-      "type" : "string"
+    "bill": {
+      "type": "object",
+      "required": ["number", "date"],
+      "properties": {
+        "number": {
+          "description": "Number of the bill",
+          "type" : "string"
+        },
+        "date": {
+          "type": "object",
+          "required": ["day", "month",  "year"],
+          "properties": {
+            "day": {
+              "type": "integer"
+            },
+            "month": {
+              "type": "integer"
+            },
+            "year": {
+              "type": "integer"
+            }
+          }
+        }
+      }
     },
     "clientInformation": {
       "type": "object",
@@ -97,17 +114,44 @@
       "type" : "array",
       "items" : { "$ref" : "#/$defs/prestation"}
     },
-    "TVArate": {
-      "description": "TVA rate",
-      "type": "number"
+    "TVA": {
+      "type": "object",
+      "required": ["TVArate", "hasTVA"],
+      "properties": {
+        "TVArate": {
+          "description": "TVA rate",
+          "type": "number"
+        },
+        "hasTVA": {
+          "description": "TVA rate",
+          "type": "boolean"
+        }
+      }
     },
-    "prestationDate": {
-      "description": "Date of the prestation",
-      "type": "string"
-    },
-    "paimentDelay": {
-      "description": "Date of the paiment",
-      "type": "integer"
+    "prestationDateAndDelay": {
+      "type": "object",
+      "required": ["prestationDate", "paimentDelay"],
+      "properties": {
+        "prestationDate": {
+          "type": "object",
+          "required": ["day", "month",  "year"],
+          "properties": {
+            "day": {
+              "type": "integer"
+            },
+            "month": {
+              "type": "integer"
+            },
+            "year": {
+              "type": "integer"
+            }
+          }
+        },
+        "paimentDelay": {
+          "description": "Date of the paiment",
+          "type": "integer"
+        }
+      }
     }
   },
   "$defs" : {
