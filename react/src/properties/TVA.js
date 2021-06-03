@@ -2,29 +2,31 @@ import React, { useState } from "react";
 
 const TVA = () => {
 
-    const [properties , setProperties] = useState([
-        {rate : 0},
-        {hasTVA : false}
-    ]);
+    const [properties , setProperties] = useState({
+        rate : 0,
+        hasTVA : false
+    });
 
-    const handleChange = (event) => {
-        setProperties([
-            {rate : event.currentTarget.value},
-            {hasTVA : event.currentTarget.value}
-        ]);
+    const getHandlerForProperty = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                [propertyName]: event.target.value
+            });
+        };
     };
 
     return (
         <div className="TVAClass">
           <input
                 value={properties["rate"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('rate')}
                 type="float"
                 placeholder="Rate in percent">
             </input>
             <input
                 value={properties["hasTVA"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('hasTVA')}
                 type="boolean"
                 placeholder="Tva or not">           
             </input>

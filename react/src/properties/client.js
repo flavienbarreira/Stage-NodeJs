@@ -2,61 +2,66 @@ import React, { useState } from "react";
 
 const Client = () => {
 
-    const [properties , setProperties] = useState([
-        {companyName: ""},
-        {
-            address : {
-                streetAndNumber : "",
-                postalCode : 0,
-                city : "",
-                country : ""
-            }
+    const [properties , setProperties] = useState({
+        companyName: "",
+        address : {
+            streetAndNumber : "",
+            postalCode : 0,
+            city : "",
+            country : ""
         }
-    ]);
+    });
 
-    const handleChange = (event) => {
-        setProperties([
-            {companyName: event.currentTarget.value},
-            {
-                address : {
-                    streetAndNumber : event.currentTarget.value,
-                    postalCode : event.currentTarget.value,
-                    city : event.currentTarget.value,
-                    country : event.currentTarget.value
+    const getHandlerForProperty = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                [propertyName]: event.target.value
+            });
+        };
+    };
+
+    const getHandlerForAddress = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                address: {
+                    ...properties.address,
+                    [propertyName]: event.target.value,
                 }
-            }
-        ]);
+            });
+        };
     };
 
     return (
         <div className="clientClass">
-          <input
+            <input
                 value={properties["companyName"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('companyName')}
                 type="text"
                 placeholder="Client company">
             </input>
             <input
-                value={properties["address"].streetAndNumber}
-                onChange={handleChange}
+                value={properties["address"]["streetAndNumber"]}
+                onChange={getHandlerForAddress('streetAndNumber')}
                 type="text"
                 placeholder="Postal adress">           
             </input>
             <input
-                value={properties["address"].postalCode}
-                onChange={handleChange}
+                value={properties["address"]["postalCode"]}
+                onChange={getHandlerForAddress('postalCode')}
                 type="integer"
                 placeholder="Postal code">                    
             </input>
             <input
-                value={properties["address"].city}
-                onChange={handleChange}
+                value={properties["address"]["city"]}
+                onChange={getHandlerForAddress('city')}
                 type="integer"
                 placeholder="City">
             </input>
             <input
-                value={properties["address"].country}
-                onChange={handleChange}
+                value={properties["address"]["country"]}
+                onChange={getHandlerForAddress('country')}
                 type="integer"
                 placeholder="Country">
             </input>

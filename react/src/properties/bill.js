@@ -1,60 +1,38 @@
 import React, { useState } from "react";
+import { Input } from 'antd';
 
 const Bill = () => {
 
-    const [properties , setProperties] = useState([
-        {number : ""},
-        {
-            date : {
-              day : 0,
-              month : 0,
-              year: 0
-            }
-        }
-    ]);
+    const [properties, setProperties] = useState({
+        number : "",
+        date : ""
+    });
 
-    const handleChange = (event) => {
-        setProperties([
-            {number : event.currentTarget.value},
-            {
-                date : {
-                  day : event.currentTarget.value,
-                  month : event.currentTarget.value,
-                  year: event.currentTarget.value
-                }
-            }
-        ]);
+    const getHandlerForProperty = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                [propertyName]: event.target.value
+            });
+        };
     };
 
     return (
         <div className="billClass">
-          <input
-                value={properties["number"]}
-                onChange={handleChange}
+          <Input
+                value={properties.number}
+                onChange={getHandlerForProperty('number')}
                 type="text"
                 placeholder="Bill Number">
-            </input>
+            </Input>
             <input
-                value={properties["date"].day}
-                onChange={handleChange}
-                type="integer"
-                placeholder="dd">           
-            </input>
-            <input
-                value={properties["date"].month}
-                onChange={handleChange}
-                type="integer"
-                placeholder="MM">                    
-            </input>
-            <input
-                value={properties["date"].year}
-                onChange={handleChange}
-                type="integer"
-                placeholder="yyyy">
+                value={properties.date}
+                onChange={getHandlerForProperty('date')}
+                type="string"
+                placeholder="dd/MM/yyyy">           
             </input>
         </div>  
       );
-    
 }
 
 export default Bill;

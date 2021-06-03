@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { UserOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 
 const Entrepreneur = () => {
 
@@ -8,91 +10,86 @@ const Entrepreneur = () => {
         firstName: "",
         email: "",
         phoneNumber: "",
-        
-            address : {
-                streetAndNumber : "",
-                postalCode : 0,
-                city : "",
-                country : ""
-            }
-        ,  
+        address : {
+            streetAndNumber : "",
+            postalCode : 0,
+            city : "",
+            country : ""
+        },  
         siretNumber: 0
     });
 
-    setProperties({
-        ...properties,
-        email: "test.com",
-    });
+    const getHandlerForProperty = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                [propertyName]: event.target.value
+            });
+        };
+    };
 
-    const handleChange = (event) => {
-        setProperties([
-            {companyName: event.currentTarget.value},
-            {lastName: event.currentTarget.value},
-            {firstName: event.currentTarget.value},
-            {email: event.currentTarget.value},
-            {phoneNumber: event.currentTarget.value},
-            {
-                address : {
-                    streetAndNumber : event.currentTarget.value,
-                    postalCode : event.currentTarget.value,
-                    city : event.currentTarget.value,
-                    country : event.currentTarget.value
+    const getHandlerForAddress = (propertyName) => {
+        return (event) => {
+            setProperties({
+                ...properties,
+                address: {
+                    ...properties.address,
+                    [propertyName]: event.target.value,
                 }
-            },  
-            {siretNumber: event.currentTarget.value}
-        ]);
+            });
+        };
     };
 
     return (
         <div className="entrepreneurClass">
-          <input
+            <Input
                 value={properties["companyName"]}
-                onChange={handleChange}
-                type="text"
-                placeholder="Entrepreneur company">
-            </input>
-            <input
+                placeholder="default size"
+                prefix={<UserOutlined />}
+                onChange={getHandlerForProperty('companyName')}
+                type="text"/>
+            <Input
                 value={properties["email"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('email')}
                 type="text"
                 placeholder="email">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["phoneNumber"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('phoneNumber')}
                 type="text"
                 placeholder="tel.">
-            </input>
-            <input
-                value={properties["address"].streetAndNumber}
-                onChange={handleChange}
+            </Input>
+            <Input
+                value={properties["address"]["streetAndNumber"]}
+                onChange={getHandlerForAddress('streetAndNumber')}
                 type="text"
                 placeholder="Postal address">           
-            </input>
-            <input
-                value={properties["address"].postalCode}
-                onChange={handleChange}
+            </Input>
+            <Input
+                value={properties["address"]["postalCode"]}
+                onChange={getHandlerForAddress('postalCode')}
                 type="integer"
                 placeholder="Postal code">                    
-            </input>
-            <input
-                value={properties["address"].city}
-                onChange={handleChange}
+            </Input>
+            <Input
+                value={properties["address"]["city"]}
+                onChange={getHandlerForAddress('city')}
                 type="integer"
                 placeholder="City">
-            </input>
-            <input
-                value={properties["address"].country}
-                onChange={handleChange}
+            </Input>
+            <Input
+                value={properties["address"]["country"]}
+                onChange={getHandlerForAddress('country')}
                 type="integer"
                 placeholder="Country">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["siretNumber"]}
-                onChange={handleChange}
+                onChange={getHandlerForProperty('siretNumber')}
                 type="integer"
                 placeholder="Siret number">
-            </input>
+            </Input>
         </div>  
       );
     
