@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input } from 'antd';
 
 const Client = () => {
 
@@ -35,36 +36,36 @@ const Client = () => {
 
     return (
         <div className="clientClass">
-            <input
+            <Input
                 value={properties["companyName"]}
                 onChange={getHandlerForProperty('companyName')}
                 type="text"
                 placeholder="Client company">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["address"]["streetAndNumber"]}
                 onChange={getHandlerForAddress('streetAndNumber')}
                 type="text"
                 placeholder="Postal adress">           
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["address"]["postalCode"]}
                 onChange={getHandlerForAddress('postalCode')}
                 type="integer"
                 placeholder="Postal code">                    
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["address"]["city"]}
                 onChange={getHandlerForAddress('city')}
                 type="integer"
                 placeholder="City">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["address"]["country"]}
                 onChange={getHandlerForAddress('country')}
                 type="integer"
                 placeholder="Country">
-            </input>
+            </Input>
         </div>  
       );
     

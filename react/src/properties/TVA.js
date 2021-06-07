@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input } from 'antd';
 
 const TVA = () => {
 
@@ -18,18 +19,18 @@ const TVA = () => {
 
     return (
         <div className="TVAClass">
-          <input
+          <Input
                 value={properties["rate"]}
                 onChange={getHandlerForProperty('rate')}
                 type="float"
                 placeholder="Rate in percent">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["hasTVA"]}
                 onChange={getHandlerForProperty('hasTVA')}
                 type="boolean"
                 placeholder="Tva or not">           
-            </input>
+            </Input>
         </div>  
       );
     

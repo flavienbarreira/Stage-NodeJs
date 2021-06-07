@@ -19,18 +19,18 @@ const Bill = () => {
 
     return (
         <div className="billClass">
-          <Input
+            <Input
                 value={properties.number}
                 onChange={getHandlerForProperty('number')}
                 type="text"
                 placeholder="Bill Number">
             </Input>
-            <input
+            <Input
                 value={properties.date}
                 onChange={getHandlerForProperty('date')}
                 type="string"
                 placeholder="dd/MM/yyyy">           
-            </input>
+            </Input>
         </div>  
       );
 }

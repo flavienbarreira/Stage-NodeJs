@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button , Table } from 'antd';
+import { Button , Table , Input} from 'antd';
 
 const AddItemForm = ({ onItemAdded }) => {
     const [description, setDescription] = useState('');
@@ -26,9 +26,9 @@ const AddItemForm = ({ onItemAdded }) => {
 
     return (
         <div>
-            <input onChange={handleChangeDescription}></input>
-            <input onChange={handleChangeQuantity}></input>
-            <input onChange={handleChangeUnitaryPriceWhithoutTaxes}></input> 
+            <Input onChange={handleChangeDescription}></Input>
+            <Input onChange={handleChangeQuantity}></Input>
+            <Input onChange={handleChangeUnitaryPriceWhithoutTaxes}></Input> 
             <Button onClick={onAddPrestation}>Ajouter une prestation</Button>
         </div>
     )
@@ -63,7 +63,7 @@ const AddItemForm = ({ onItemAdded }) => {
 }*/
 
 const CreateTable = ({ items }) => {
-    const dataSource = [
+    /*const dataSource = [
         {
           key: '1',
           name: 'Mike',
@@ -76,27 +76,27 @@ const CreateTable = ({ items }) => {
           age: 42,
           address: '10 Downing Street',
         },
+      ];*/
+      
+    const columns = [
+        {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description',
+        },
+        {
+          title: 'Quantity',
+          dataIndex: 'quantity',
+          key: 'quantity',
+        },
+        {
+          title: 'UnitaryPriceWhithoutTaxes',
+          dataIndex: 'unitaryPriceWhithoutTaxes',
+          key: 'unitaryPriceWhithoutTaxes',
+        },
       ];
       
-      const columns = [
-        {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: 'Age',
-          dataIndex: 'age',
-          key: 'age',
-        },
-        {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
-        },
-      ];
-      
-    return <Table dataSource={dataSource} columns={columns} />;
+    return <Table dataSource={items} columns={columns} />;
 }
 
 /*{items.map((item , idx) => {
@@ -104,6 +104,7 @@ const CreateTable = ({ items }) => {
 })}*/
 
 const ItemsList = ({ items }) => {
+
     if (!items) return 'no items';
     return (
         <div>
@@ -117,11 +118,15 @@ const Prestations = () => {
     const [items, setItems] = useState([]);
 
     const onItemAdded = (item) => {
+        let x = items.length;
+        item["key"] = x;
         setItems([
             ...items,
             item
         ]);
     }
+
+    console.log(items);
 
     return (
         <div className="prestationsClass">

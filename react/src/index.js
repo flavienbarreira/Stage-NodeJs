@@ -8,6 +8,8 @@ import TVA from "./properties/TVA.js";
 import askAPI from "./askAPI";
 import { Button  } from 'antd';
 import Prestations from "./properties/prestations";
+import 'antd/dist/antd.less';
+import './index.less';
 
 const App = () => {
 

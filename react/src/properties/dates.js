@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input } from 'antd';
 
 const Dates = () => {
 
@@ -18,18 +19,18 @@ const Dates = () => {
 
     return (
         <div className="datesClass">
-          <input
+          <Input
                 value={properties["paimentDelay"]}
                 onChange={getHandlerForProperty('paimentDelay')}
                 type="integer"
                 placeholder="Delay for the paiment">
-            </input>
-            <input
+            </Input>
+            <Input
                 value={properties["prestationDate"]}
                 onChange={getHandlerForProperty('prestationDate')}
                 type="string"
                 placeholder="dd/MM/yyyy">           
-            </input>
+            </Input>
         </div>  
       );
     
