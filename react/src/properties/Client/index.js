@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input } from 'antd';
 
-const Client = () => {
-
-    const [properties , setProperties] = useState({
-        companyName: "",
-        address : {
-            streetAndNumber : "",
-            postalCode : 0,
-            city : "",
-            country : ""
-        }
-    });
+const Client = ({data, onUpdate}) => {
 
     const getHandlerForProperty = (propertyName) => {
         return (event) => {
-            setProperties({
-                ...properties,
+            onUpdate({
+                ...data,
                 [propertyName]: event.target.value
             });
         };
@@ -24,10 +14,10 @@ const Client = () => {
 
     const getHandlerForAddress = (propertyName) => {
         return (event) => {
-            setProperties({
-                ...properties,
+            onUpdate({
+                ...data,
                 address: {
-                    ...properties.address,
+                    ...data.address,
                     [propertyName]: event.target.value,
                 }
             });
@@ -37,31 +27,31 @@ const Client = () => {
     return (
         <div className="clientClass">
             <Input
-                value={properties["companyName"]}
+                value={data.companyName}
                 onChange={getHandlerForProperty('companyName')}
                 type="text"
                 placeholder="Client company">
             </Input>
             <Input
-                value={properties["address"]["streetAndNumber"]}
+                value={data.address.streetAndNumber}
                 onChange={getHandlerForAddress('streetAndNumber')}
                 type="text"
                 placeholder="Postal adress">           
             </Input>
             <Input
-                value={properties["address"]["postalCode"]}
+                value={data.address.postalCode}
                 onChange={getHandlerForAddress('postalCode')}
                 type="integer"
                 placeholder="Postal code">                    
             </Input>
             <Input
-                value={properties["address"]["city"]}
+                value={data.address.city}
                 onChange={getHandlerForAddress('city')}
                 type="integer"
                 placeholder="City">
             </Input>
             <Input
-                value={properties["address"]["country"]}
+                value={data.address.country}
                 onChange={getHandlerForAddress('country')}
                 type="integer"
                 placeholder="Country">

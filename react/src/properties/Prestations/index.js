@@ -34,49 +34,7 @@ const AddItemForm = ({ onItemAdded }) => {
     )
 }
 
-/*const Item = ({ item , idx , size }) => {
-    if(idx===0){
-        return (
-            <div>
-                <div>{item["description"]}</div>
-                <div>{item["quantity"]}</div>
-                <div>{item["unitaryPriceWhithoutTaxes"]}</div>
-            </div>
-        );
-    } else if(idx===size-1){
-        return (
-            <div>
-                <div>{item["description"]}</div>
-                <div>{item["quantity"]}</div>
-                <div>{item["unitaryPriceWhithoutTaxes"]}</div>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <div>{item["description"]}</div>
-                <div>{item["quantity"]}</div>
-                <div>{item["unitaryPriceWhithoutTaxes"]}</div>
-            </div>
-        );
-    }   
-}*/
-
 const CreateTable = ({ items }) => {
-    /*const dataSource = [
-        {
-          key: '1',
-          name: 'Mike',
-          age: 32,
-          address: '10 Downing Street',
-        },
-        {
-          key: '2',
-          name: 'John',
-          age: 42,
-          address: '10 Downing Street',
-        },
-      ];*/
       
     const columns = [
         {
@@ -99,10 +57,6 @@ const CreateTable = ({ items }) => {
     return <Table dataSource={items} columns={columns} />;
 }
 
-/*{items.map((item , idx) => {
-    return <Item item={item} key={idx} size={items.length} />
-})}*/
-
 const ItemsList = ({ items }) => {
 
     if (!items) return 'no items';
@@ -113,25 +67,22 @@ const ItemsList = ({ items }) => {
     );
 }
 
-const Prestations = () => {
-
-    const [items, setItems] = useState([]);
+const Prestations = ({data, onUpdate}) => {
 
     const onItemAdded = (item) => {
-        let x = items.length;
+        let x = data.length;
         item["key"] = x;
-        setItems([
-            ...items,
+        onUpdate([
+            ...data,
             item
         ]);
     }
 
-    console.log(items);
 
     return (
         <div className="prestationsClass">
             <AddItemForm onItemAdded={onItemAdded}/>
-            <ItemsList items={items} />
+            <ItemsList items={data} />
         </div>
       );
     

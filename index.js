@@ -60,6 +60,7 @@ app.use((error, request, response, next) => {
 });
 
 app.post('/invoice', async (req, res) => {
+  console.log(req.body);
   const pdfFilename = await generatePDF(req.body);
   res.download(pdfFilename);
 });

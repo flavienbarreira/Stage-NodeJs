@@ -109,12 +109,12 @@ function calculateTotal(items, rate , hasTVA) {
 }
 
 function buildDates(prestationDate, paimentDelay) {
-  console.log(prestationDate.year);
+/*console.log(prestationDate.year);
   console.log(prestationDate.month);
   console.log(prestationDate.day);
   const paimentDate = new Date(prestationDate.year, prestationDate.month, prestationDate.day);
   const demain = addDays(paimentDate,1);
-  console.log(paimentDate);
+  console.log(paimentDate);*/
 
   const tab=[ {text: "Date de prestation :" , fontSize: 10, color : "purple",  margin: [ 0, 0, 0, 4 ]}];
   tab.push( {text:  prestationDate, fontSize: 10});

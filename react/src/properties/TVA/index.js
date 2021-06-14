@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { Input } from 'antd';
 
-const TVA = () => {
-
-    const [properties , setProperties] = useState({
-        rate : 0,
-        hasTVA : false
-    });
+const TVA = ({data, onUpdate}) => {
 
     const getHandlerForProperty = (propertyName) => {
         return (event) => {
-            setProperties({
-                ...properties,
+            onUpdate({
+                ...data,
                 [propertyName]: event.target.value
             });
         };
@@ -20,13 +15,13 @@ const TVA = () => {
     return (
         <div className="TVAClass">
           <Input
-                value={properties["rate"]}
+                value={data.rate}
                 onChange={getHandlerForProperty('rate')}
                 type="float"
                 placeholder="Rate in percent">
             </Input>
             <Input
-                value={properties["hasTVA"]}
+                value={data.hasTVA}
                 onChange={getHandlerForProperty('hasTVA')}
                 type="boolean"
                 placeholder="Tva or not">           
